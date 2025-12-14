@@ -17,80 +17,60 @@ const DailyCompletedTasks = () => {
   return (
     <div style={{ padding: "40px" }}>
       <h1 style={{ marginBottom: "30px" }}>
-        Công việc hoàn thành trong ngày
+        CHÀO MỪNG BẠN ĐẾN VỚI BẢNG KẾ HOẠCH CÔNG VIỆC HÀNG NGÀY
       </h1>
 
-      {/* ===== THỐNG KÊ ===== */}
-      <div
-        style={{
-          display: "grid",
-          gridTemplateColumns: "repeat(3,1fr)",
-          gap: "20px",
-          marginBottom: "30px",
-        }}
-      >
-        <StatBox title="Tổng công việc" value={totalTasks} bg="#3b82f6" />
-        <StatBox title="Đã hoàn thành" value={completedTasks} bg="#10b981" />
-        <StatBox title="Chưa hoàn thành" value={pendingTasks} bg="#ef4444" />
+      {/*THỐNG KÊ*/}
+      <div style={{display: "flex",gap: "full",marginBottom: "30px"}}>
+        <StatBox title="Tổng công việc" value={totalTasks} bg="#3B82F6"  />
+        <StatBox title="Đã hoàn thành" value={completedTasks} bg="#22C55E" />
+        <StatBox title="Chưa hoàn thành" value={pendingTasks} bg="#F97316" />
       </div>
 
-      {/* ===== THÊM ===== */}
-      <div style={{ display: "flex", gap: "10px", marginBottom: "20px" }}>
-        <input
-          value={newTask}
-          onChange={(e) => setNewTask(e.target.value)}
-          placeholder="Nhập công việc..."
-          style={{
-            flex: 1,
-            padding: "10px",
-            borderRadius: "8px",
-            border: "1px solid #d1d5db",
-          }}
-        />
-        <button
-          onClick={() => {
-            if (!newTask.trim()) return;
-            setTasks([
-              ...tasks,
-              { id: Date.now(), title: newTask, completed: false },
-            ]);
-            setNewTask("");
-          }}
-          style={{
-            padding: "10px 20px",
-            borderRadius: "8px",
-            border: "none",
-            backgroundColor: "#4f46e5",
-            color: "white",
-            cursor: "pointer",
-          }}
-        >
-          Thêm
-        </button>
-      </div>
-
-      {/* ===== BẢNG (2 CỘT) ===== */}
-      <div
+     {/* THÊM */}
+    <div
+      style={{
+        position: "relative",
+        marginBottom: "20px",
+        maxWidth: "100%",
+      }}
+    >
+      <input
+        value={newTask}
+        onChange={(e) => setNewTask(e.target.value)}
+        placeholder="Nhập công việc..."
         style={{
-          display: "grid",
-          gridTemplateColumns: "60px 1fr",
-          gap: "10px",
+          width: "100%",
+          padding: "12px 45px 12px 12px", // chừa chỗ cho nút
+          borderRadius: "8px",
+          border: "1px solid #d1d5db",
+          fontSize: "15px",
         }}
+      />
+
+      <button
+        onClick={() => {
+          if (!newTask.trim()) return;
+          setTasks([
+            ...tasks,
+            { id: Date.now(), title: newTask, completed: false },
+          ]);
+          setNewTask("");
+        }}
+        style={{position: "absolute",right: "8px",top: "50%",transform: "translateY(-50%)",borderRadius:"50%",cursor: "pointer",backgroundColor: "#BFDBFE"}}>╋
+      </button>
+    </div>
+      <div
+        style={{display: "grid",gridTemplateColumns: "60px 1fr",gap: "10px"}}
       >
         <HeaderCell>✔</HeaderCell>
-        <HeaderCell>Tên công việc</HeaderCell>
+        <HeaderCell>CÔNG VIỆC CẦN HOÀN THÀNH TRONG NGÀY </HeaderCell>
 
         {tasks.map((task) => (
           <div key={task.id} style={{ display: "contents" }}>
             {/* Checkbox */}
             <div
-              style={{
-                padding: "10px",
-                borderRadius: "6px",
-                border: "1px solid #e5e7eb",
-                textAlign: "center",
-              }}
-            >
+              style={{padding: "10px",borderRadius: "6px",border: "1px solid #e5e7eb",textAlign: "center"}}>
               <input
                 type="checkbox"
                 checked={task.completed}
@@ -105,31 +85,15 @@ const DailyCompletedTasks = () => {
                 }
               />
             </div>
-
-            {/* Tên + Hành động */}
             <div
-              style={{
-                padding: "10px",
-                borderRadius: "6px",
-                border: "1px solid #e5e7eb",
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "space-between",
-                gap: "10px",
-              }}
-            >
+              style={{padding: "10px",borderRadius: "6px",border: "1px solid #e5e7eb",display: "flex",alignItems: "center",justifyContent: "space-between",gap: "10px"}}>
               {/* TÊN */}
               <div style={{ flex: 1 }}>
                 {editingId === task.id ? (
                   <input
                     value={editingValue}
                     onChange={(e) => setEditingValue(e.target.value)}
-                    style={{
-                      width: "100%",
-                      padding: "6px",
-                      borderRadius: "6px",
-                    }}
-                  />
+                    style={{width: "50%",padding: "6px",borderRadius: "6px"}}/>
                 ) : (
                   <span
                     style={{
@@ -157,30 +121,21 @@ const DailyCompletedTasks = () => {
                         )
                       );
                       setEditingId(null);
-                    }}
-                    style={btn("#10b981")}
-                  >
-                    Lưu
+                    }}style={btn("#3B82F6")}>✔
                   </button>
                 ) : (
                   <button
                     onClick={() => {
                       setEditingId(task.id);
                       setEditingValue(task.title);
-                    }}
-                    style={btn("#3b82f6")}
-                  >
-                    Sửa
+                    }}style={btn("#22C55E")}>Sửa
                   </button>
                 )}
 
                 <button
                   onClick={() =>
                     setTasks(tasks.filter((t) => t.id !== task.id))
-                  }
-                  style={btn("#ef4444")}
-                >
-                  Xoá
+                  }style={btn("#F97316")}>x
                 </button>
               </div>
             </div>
@@ -191,42 +146,22 @@ const DailyCompletedTasks = () => {
   );
 };
 
-/* ===== COMPONENT PHỤ (GIỮ STYLE TRONG FILE) ===== */
+/*style*/
 const StatBox = ({ title, value, bg }) => (
   <div
-    style={{
-      padding: "20px",
-      borderRadius: "12px",
-      backgroundColor: bg,
-      color: "white",
-      boxShadow: "0 8px 20px rgba(0,0,0,0.15)",
-    }}
-  >
-    <h3 style={{ fontSize: "16px", fontWeight: "500" }}>{title}</h3>
-    <p style={{ fontSize: "36px", fontWeight: "700" }}>{value}</p>
+    style={{padding: "10px",backgroundColor: bg,color: "black"}}>
+    <h3 style={{ fontSize: "16px",textAlign: "center" }}>{title}</h3>
+    <p style={{ fontSize: "46px" ,textAlign: "center"}}>{value}</p>
   </div>
 );
 
 const HeaderCell = ({ children }) => (
   <div
-    style={{
-      fontWeight: "600",
-      padding: "10px",
-      backgroundColor: "#f3f4f6",
-      borderRadius: "6px",
-    }}
-  >
+    style={{fontWeight: "600",textAlign: "center",padding: "5px",backgroundColor: "#f3f4f6"}}>
     {children}
   </div>
 );
-
-const btn = (bg) => ({
-  padding: "6px 12px",
-  backgroundColor: bg,
-  border: "none",
-  borderRadius: "6px",
-  color: "white",
-  cursor: "pointer",
-});
+// style của btn
+const btn = (bg) => ({padding: "6px 12px",backgroundColor: bg,color: "black",cursor: "pointer"});
 
 export default DailyCompletedTasks;
